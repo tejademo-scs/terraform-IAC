@@ -3,7 +3,7 @@ version: 2.1
 parameters:
   private_key:
     type: string
-    default: testkey
+    default: ""
 
 jobs:
   deploy:
@@ -12,11 +12,12 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Display Private Key
+          name: Setup SSH Key
           command: |
-            echo "Using private key for deployment..."
-            echo "<< parameters.private_key >>" > ~/.ssh/id_rsa
+            mkdir -p ~/.ssh
+            echo "<< pipeline.parameters.private_key >>" > ~/.ssh/id_rsa
             chmod 600 ~/.ssh/id_rsa
+            ssh-keyscan -H github.com >> ~/.ssh/known_hosts
       - run:
           name: Deploy Application
           command: |
@@ -28,4 +29,4 @@ workflows:
   deploy_workflow:
     jobs:
       - deploy:
-          private_key: "<< pipeline.parameters.private_key >>"
+          private_key: "your_private_key_here"
