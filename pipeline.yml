@@ -1,0 +1,31 @@
+version: 2.1
+
+parameters:
+  private_key:
+    type: string
+    default: testkey
+
+jobs:
+  deploy:
+    docker:
+      - image: circleci/python:3.8
+    steps:
+      - checkout
+      - run:
+          name: Display Private Key
+          command: |
+            echo "Using private key for deployment..."
+            echo "<< parameters.private_key >>" > ~/.ssh/id_rsa
+            chmod 600 ~/.ssh/id_rsa
+      - run:
+          name: Deploy Application
+          command: |
+            echo "Deploying application..."
+            # Add deployment commands here
+
+workflows:
+  version: 2
+  deploy_workflow:
+    jobs:
+      - deploy:
+          private_key: "<< pipeline.parameters.private_key >>"
