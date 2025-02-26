@@ -15,10 +15,10 @@ resource "google_composer_environment" "composer_legacy" {
 
       # Override Airflow configurations
       airflow_config_overrides = {
-        "core.lazy_load_plugins"        = "False"
-        "core.load_default_connections" = "False"
-        "secrets.backend"               = "airflow.providers.google.cloud.secrets.secret_manager.CloudSecretManagerBackend"
-        "secrets.backend_kwargs"        = <<EOT
+         core.lazy_load_plugins        = "False"
+         core.load_default_connections = "False"
+         secrets.backend               = "airflow.providers.google.cloud.secrets.secret_manager.CloudSecretManagerBackend"
+         secrets.backend_kwargs       = <<EOT
           {
             "connections_prefix": "airflow-connections",
             "variables_prefix": "airflow-variables",
